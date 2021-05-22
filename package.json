@@ -1,0 +1,23 @@
+{
+  "name": "shortc",
+  "version": "0.0.1",
+  "description": "shortcut app",
+  "main": "shortc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShpylovyiRoman/shortc.git"
+  },
+  "author": "Roman Shpylovyi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShpylovyiRoman/shortc/issues"
+  },
+  "homepage": "https://github.com/ShpylovyiRoman/shortc#readme",
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "eslint-plugin-react": "^7.23.2"
+  }
+}
