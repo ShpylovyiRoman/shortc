@@ -1,6 +1,5 @@
 'use strict';
 const yargs = require('yargs');
-const chalk = require('chalk');
 const pkg = require('./package.json');
 const commands = require('./commands.js');
 
@@ -23,7 +22,7 @@ yargs.command({
     },
   },
   handler({ com, desc }) {
-    commands.addCommand(com, desc);
+    commands.addCommand(com, desc, pathFile);
   },
 });
 
