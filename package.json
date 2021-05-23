@@ -1,6 +1,6 @@
 {
   "name": "shortc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "shortcut app",
   "main": "shortc.js",
   "scripts": {
