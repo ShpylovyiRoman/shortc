@@ -3,7 +3,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const pathFile = 'input.json';
 
-function ifExist(path) {
+function createIfNotExists(path) {
   try {
     if (fs.existsSync(path)) {
       return;
@@ -16,13 +16,13 @@ function ifExist(path) {
 }
 
 function readFile(path) {
-  ifExist(path);
+  createIfNotExists(path);
   const res = fs.readFileSync(path, 'utf8');
   return res;
 }
 
 function addToFile(path, newComm) {
-  ifExist(path);
+  createIfNotExists(path);
   fs.readFile(path, (err, commands) => {
     if (err) throw err;
     const parseJson = JSON.parse(commands);
