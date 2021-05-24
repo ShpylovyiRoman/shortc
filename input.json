@@ -1,1 +1,0 @@
-[{"command":"git add","description":"Use it to add file to your commit"},{"command":"git commit","description":"Use it to create new commit"},{"command":"eslint --config=.eslintrc.json","description":"Start linter with concrete configuration"},{"command":"git hellp","description":"This coyourn help"}]

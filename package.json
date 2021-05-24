@@ -19,5 +19,8 @@
   "devDependencies": {
     "eslint": "^7.27.0",
     "eslint-plugin-react": "^7.23.2"
+  },
+  "dependencies": {
+    "yargs": "^17.0.1"
   }
 }
