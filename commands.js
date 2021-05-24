@@ -1,13 +1,28 @@
 'use strict';
 const fs = require('fs');
 const chalk = require('chalk');
+const pathFile = 'input.json';
+
+function ifExist(path) {
+  try {
+    if (fs.existsSync(path)) {
+      return;
+    } else {
+      fs.writeFileSync(path, '[]');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 function readFile(path) {
+  ifExist(path);
   const res = fs.readFileSync(path, 'utf8');
   return res;
 }
 
 function addToFile(path, newComm) {
+  ifExist(path);
   fs.readFile(path, (err, commands) => {
     if (err) throw err;
     const parseJson = JSON.parse(commands);
@@ -38,4 +53,5 @@ function readCommand(path) {
 module.exports = {
   addCommand,
   readCommand,
+  pathFile,
 };
