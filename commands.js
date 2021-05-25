@@ -1,7 +1,8 @@
 'use strict';
 const fs = require('fs');
 const chalk = require('chalk');
-const pathFile = 'input.json';
+const dataPath = require('path');
+const pathFile = dataPath.resolve(__dirname) + '\\shortc.json';
 
 function createIfNotExists(path) {
   try {
@@ -17,6 +18,7 @@ function createIfNotExists(path) {
 
 function readFile(path) {
   createIfNotExists(path);
+  console.log(pathFile);
   const res = fs.readFileSync(path, 'utf8');
   return res;
 }

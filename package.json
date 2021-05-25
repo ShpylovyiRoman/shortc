@@ -21,6 +21,7 @@
     "eslint-plugin-react": "^7.23.2"
   },
   "dependencies": {
+    "path": "^0.12.7",
     "yargs": "^17.0.1"
   }
 }
