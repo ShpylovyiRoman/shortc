@@ -18,7 +18,6 @@ function createIfNotExists(path) {
 
 function readFile(path) {
   createIfNotExists(path);
-  console.log(pathFile);
   const res = fs.readFileSync(path, 'utf8');
   return res;
 }
