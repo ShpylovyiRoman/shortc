@@ -6,13 +6,10 @@ const pathFile = pathFinder();
 
 function pathFinder() {
   let path = process.env['SHORTC_PATH'] + '\\shortc.json';
-  console.log(path);
   if (path !== undefined) {
-    console.log(path);
     return path;
   } else {
     path = os.homedir() + '\\shortc.json';
-    console.log(path);
     return path;
   }
 }
@@ -64,8 +61,14 @@ function readCommand(path) {
   console.log(data);
 }
 
+function getPath() {
+  console.log(chalk.blue(' Your file with saved commands are located there: ') +
+  chalk.bgCyan.bold(pathFile));
+}
+
 module.exports = {
   addCommand,
   readCommand,
+  getPath,
   pathFile,
 };
