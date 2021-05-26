@@ -1,10 +1,8 @@
 'use strict';
 const yargs = require('yargs');
-const chalk = require('chalk');
 const pkg = require('./package.json');
 const commands = require('./commands.js');
 
-const pathFile = 'input.json';
 yargs.version(pkg.version);
 
 yargs.command({
@@ -31,7 +29,7 @@ yargs.command({
   command: 'read',
   describe: 'Check all commands',
   handler() {
-    commands.readCommand(pathFile);
+    commands.readCommand(commands.pathFile);
   },
 });
 

@@ -19,5 +19,10 @@
   "devDependencies": {
     "eslint": "^7.27.0",
     "eslint-plugin-react": "^7.23.2"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "fs": "0.0.1-security",
+    "yargs": "^17.0.1"
   }
 }
