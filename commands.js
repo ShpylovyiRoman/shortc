@@ -1,8 +1,21 @@
 'use strict';
 const fs = require('fs');
 const chalk = require('chalk');
-const dataPath = require('path');
-const pathFile = dataPath.resolve(__dirname) + '\\shortc.json';
+const os = require('os');
+const pathFile = pathFinder();
+
+function pathFinder() {
+  let path = process.env['SHORTC_PATH'] + '\\shortc.json';
+  console.log(path);
+  if (path !== undefined) {
+    console.log(path);
+    return path;
+  } else {
+    path = os.homedir() + '\\shortc.json';
+    console.log(path);
+    return path;
+  }
+}
 
 function createIfNotExists(path) {
   try {
