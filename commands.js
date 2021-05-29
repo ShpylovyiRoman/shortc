@@ -2,11 +2,12 @@
 const fs = require('fs');
 const chalk = require('chalk');
 const path = require('path');
+const os = require('os');
 
 const pathFile = getSavePath();
 
 function getSavePath() {
-  const currentDir = path.resolve(__dirname);
+  const currentDir = os.homedir();
   const pth = 'SHORTC_PATH' in process.env ?
     process.env['SHORTC_PATH'] : currentDir;
   return path.join(pth, 'shortc.json');
