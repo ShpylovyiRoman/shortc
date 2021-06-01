@@ -8,8 +8,7 @@ const pathFile = getSavePath();
 
 function getSavePath() {
   const currentDir = os.homedir();
-  const pth = 'SHORTC_PATH' in process.env ?
-    process.env['SHORTC_PATH'] : currentDir;
+  const pth = process.env['SHORTC_PATH'] || currentDir;
   return path.join(pth, 'shortc.json');
 }
 
@@ -35,14 +34,18 @@ function readFile(pth) {
 function addToFile(pth, newComm) {
   createIfNotExists(pth);
   fs.readFile(pth, (err, commands) => {
-    if (err) throw err;
+    if (err) {
+      console.log(err);
+    }
     const parseJson = JSON.parse(commands);
     parseJson.push(newComm);
     fs.writeFile(
       pth,
       JSON.stringify(parseJson),
       err => {
-        if (err) throw err;
+        if (err) {
+          console.log(err);
+        }
       },
       console.log(chalk.green('Command was successful added'))
     );
