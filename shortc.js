@@ -6,6 +6,7 @@ const chalk = require('chalk');
 
 const EXIT_ERROR = 1;
 
+
 const run = async state => {
   yargs.version(pkg.version);
 
@@ -28,6 +29,7 @@ const run = async state => {
       state.addCommand({ com, desc });
     },
   });
+
 
   yargs.command({
     command: 'read',
