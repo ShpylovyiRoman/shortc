@@ -4,13 +4,15 @@ const path = require('path');
 const os = require('os');
 
 const pathFile = getSavePath();
+const FILE_DOESNT_EXIST = 'ENOENT';
 
 const tryReadFile = async path => {
   try {
     const file = await fs.promises.readFile(path, { encoding: 'utf8' });
     return file;
   } catch (err) {
-    if (err.code !== 'ENOENT') throw err;
+    if (err.code !== FILE_DOESNT_EXIST) throw err;
+    // try to create file, because it could be impossible due to another error
     await fs.promises.writeFile(path, '');
     return null;
   }
