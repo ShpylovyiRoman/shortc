@@ -6,6 +6,34 @@ const os = require('os');
 
 const pathFile = getSavePath();
 
+const tryReadFile = async path => {
+  try {
+    const file = await fs.promises.readFile(path);
+    return file;
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      return null;
+    }
+    throw err;
+  }
+};
+
+class ShortcState {
+  constructor(commands) {
+    this.commands = commands;
+  }
+
+  addCommand(command) {
+    this.commands.push(command);
+  }
+
+  static async loadFrom(path) {
+    const data = (await tryReadFile(path)) || '[]';
+    const commands = await JSON.parse(data);
+    return new ShortcState(commands);
+  }
+}
+
 function getSavePath() {
   const currentDir = os.homedir();
   const pth = process.env['SHORTC_PATH'] || currentDir;
@@ -66,7 +94,7 @@ function readCommand(pth) {
 
 function getPath() {
   console.log(chalk.blue(' Your file with saved commands are located there: ') +
-  chalk.bgCyan.bold(pathFile));
+    chalk.bgCyan.bold(pathFile));
 }
 
 module.exports = {
@@ -74,4 +102,6 @@ module.exports = {
   readCommand,
   getPath,
   pathFile,
+  ShortcState,
+  getSavePath
 };
