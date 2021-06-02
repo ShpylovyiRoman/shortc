@@ -33,6 +33,12 @@ yargs.command({
   },
 });
 
-yargs.parse();
+yargs.command({
+  command: 'path',
+  describe: 'Show path for file with saved commands',
+  handler() {
+    commands.getPath();
+  },
+});
 
-//node .\shortc.js add --com='git add' --desc='This command can help'
+yargs.parse();

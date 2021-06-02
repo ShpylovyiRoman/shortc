@@ -1,37 +1,51 @@
 'use strict';
 const fs = require('fs');
 const chalk = require('chalk');
-const pathFile = 'input.json';
+const path = require('path');
+const os = require('os');
 
-function createIfNotExists(path) {
+const pathFile = getSavePath();
+
+function getSavePath() {
+  const currentDir = os.homedir();
+  const pth = process.env['SHORTC_PATH'] || currentDir;
+  return path.join(pth, 'shortc.json');
+}
+
+function createIfNotExists(pth) {
   try {
-    if (fs.existsSync(path)) {
+    if (fs.existsSync(pth)) {
       return;
     } else {
-      fs.writeFileSync(path, '[]');
+      fs.writeFileSync(pth, '[]');
     }
   } catch (error) {
     console.log(error);
   }
 }
 
-function readFile(path) {
-  createIfNotExists(path);
-  const res = fs.readFileSync(path, 'utf8');
+function readFile(pth) {
+  createIfNotExists(pth);
+  console.log(pathFile);
+  const res = fs.readFileSync(pth, 'utf8');
   return res;
 }
 
-function addToFile(path, newComm) {
-  createIfNotExists(path);
-  fs.readFile(path, (err, commands) => {
-    if (err) throw err;
+function addToFile(pth, newComm) {
+  createIfNotExists(pth);
+  fs.readFile(pth, (err, commands) => {
+    if (err) {
+      console.log(err);
+    }
     const parseJson = JSON.parse(commands);
     parseJson.push(newComm);
     fs.writeFile(
-      path,
+      pth,
       JSON.stringify(parseJson),
       err => {
-        if (err) throw err;
+        if (err) {
+          console.log(err);
+        }
       },
       console.log(chalk.green('Command was successful added'))
     );
@@ -39,19 +53,25 @@ function addToFile(path, newComm) {
   return;
 }
 
-function addCommand(com, desc, path) {
+function addCommand(com, desc, pth) {
   console.log(chalk.red(`${com} ${desc}`));
   const data = { command: com, description: desc };
-  addToFile(path, data);
+  addToFile(pth, data);
 }
 
-function readCommand(path) {
-  const data = JSON.parse(readFile(path));
+function readCommand(pth) {
+  const data = JSON.parse(readFile(pth));
   console.log(data);
+}
+
+function getPath() {
+  console.log(chalk.blue(' Your file with saved commands are located there: ') +
+  chalk.bgCyan.bold(pathFile));
 }
 
 module.exports = {
   addCommand,
   readCommand,
+  getPath,
   pathFile,
 };
