@@ -2,6 +2,7 @@
 const yargs = require('yargs');
 const pkg = require('./package.json');
 const commands = require('./commands.js');
+const chalk = require('chalk');
 
 const EXIT_ERROR = 1;
 
@@ -32,7 +33,7 @@ const run = async state => {
     command: 'read',
     describe: 'Check all commands',
     handler() {
-      commands.readCommand(commands.pathFile);
+      console.dir(state.commands);
     },
   });
 
@@ -40,7 +41,9 @@ const run = async state => {
     command: 'path',
     describe: 'Show path for file with saved commands',
     handler() {
-      commands.getPath();
+      const path = commands.getSavePath();
+      const colorfullPath = chalk.bgCyan.bold(path);
+      console.log(chalk.blue(`Db is located at ${colorfullPath}`));
     },
   });
 
