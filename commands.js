@@ -7,13 +7,12 @@ const pathFile = getSavePath();
 
 const tryReadFile = async path => {
   try {
-    const file = await fs.promises.readFile(path);
+    const file = await fs.promises.readFile(path, { encoding: 'utf8' });
     return file;
   } catch (err) {
-    if (err.code === 'ENOENT') {
-      return null;
-    }
-    throw err;
+    if (err.code !== 'ENOENT') throw err;
+    await fs.promises.writeFile(path, '');
+    return null;
   }
 };
 
@@ -27,8 +26,9 @@ class ShortcState {
   }
 
   static async loadFrom(path) {
-    const data = (await tryReadFile(path)) || '[]';
-    const commands = await JSON.parse(data);
+    const data = await tryReadFile(path);
+    const json = data || '[]';
+    const commands = JSON.parse(json);
     return new ShortcState(commands);
   }
 
