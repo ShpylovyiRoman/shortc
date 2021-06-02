@@ -1,7 +1,11 @@
 'use strict';
 const yargs = require('yargs');
 const pkg = require('./package.json');
-const { printCommand, getSavePath, ShortcState } = require('./commands.js');
+const {
+  getSavePath,
+  ShortcState,
+  Command,
+} = require('./commands.js');
 const chalk = require('chalk');
 
 const EXIT_ERROR = 1;
@@ -14,7 +18,7 @@ const run = async state => {
     command: 'add',
     describe: 'Add command',
     builder: {
-      com: {
+      name: {
         type: 'string',
         demandOption: true,
         describe: 'Add shortcut name',
@@ -25,8 +29,8 @@ const run = async state => {
         describe: 'Add shortcut description',
       },
     },
-    handler({ com, desc }) {
-      state.addCommand({ com, desc });
+    handler({ name, desc }) {
+      state.addCommand(new Command(name, desc));
     },
   });
 
@@ -36,7 +40,7 @@ const run = async state => {
     describe: 'Check all commands',
     handler() {
       state.commands.forEach(cmd => {
-        printCommand(cmd);
+        cmd.print();
       });
     },
   });
@@ -62,10 +66,22 @@ const run = async state => {
     handler({ pattern }) {
       const regexp = new RegExp(pattern);
       for (const cmd of state.commands) {
-        if (regexp.test(cmd.com) || regexp.test(cmd.desc)) {
-          printCommand(cmd);
+        if (regexp.test(cmd.name) || regexp.test(cmd.desc)) {
+          cmd.print();
         }
       }
+    },
+  });
+
+  yargs.command({
+    command: 'remove <name>',
+    describe: 'Remove command based on its name',
+    builder: () => yargs.positional('name', {
+      type: 'string',
+      describe: 'name of the command'
+    }),
+    handler({ name }) {
+      state.removeCommand(name);
     },
   });
 
