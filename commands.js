@@ -20,36 +20,44 @@ const tryReadFile = async path => {
 };
 
 class Command {
-  constructor(com, desc) {
-    this.com = com.trim();
+  constructor(name, desc) {
+    this.name = name.trim();
     this.desc = desc.trim();
   }
 
   print() {
-    console.log(chalk.cyan(`- ${this.com}`));
+    console.log(chalk.cyan(`- ${this.name}`));
     console.log(`\t${chalk.greenBright(this.desc)}`);
   }
 }
 
 class ShortcState {
   constructor(commands) {
-    this.commands = commands;
+    this.cmds = commands.reduce((map, cmd) => {
+      map.set(cmd.name, cmd);
+      return map;
+    }, new Map());
   }
 
   addCommand(command) {
-    this.commands.push(command);
+    this.cmds.set(command.name, command);
   }
 
   static async loadFrom(path) {
     const data = await tryReadFile(path);
     const json = data || '[]';
-    const commands = JSON.parse(json);
-    return new ShortcState(commands.map(obj => new Command(obj.com, obj.desc)));
+    const array = JSON.parse(json);
+    const commands = array.map(({ name, desc }) => new Command(name, desc));
+    return new ShortcState(commands);
   }
 
   async saveTo(path) {
     const data = JSON.stringify(this.commands);
     return fs.promises.writeFile(path, data);
+  }
+
+  get commands() {
+    return [...this.cmds.values()];
   }
 }
 

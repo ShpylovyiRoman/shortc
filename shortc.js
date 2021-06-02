@@ -18,7 +18,7 @@ const run = async state => {
     command: 'add',
     describe: 'Add command',
     builder: {
-      com: {
+      name: {
         type: 'string',
         demandOption: true,
         describe: 'Add shortcut name',
@@ -29,8 +29,8 @@ const run = async state => {
         describe: 'Add shortcut description',
       },
     },
-    handler({ com, desc }) {
-      state.addCommand(new Command(com, desc));
+    handler({ name, desc }) {
+      state.addCommand(new Command(name, desc));
     },
   });
 
@@ -66,7 +66,7 @@ const run = async state => {
     handler({ pattern }) {
       const regexp = new RegExp(pattern);
       for (const cmd of state.commands) {
-        if (regexp.test(cmd.com) || regexp.test(cmd.desc)) {
+        if (regexp.test(cmd.name) || regexp.test(cmd.desc)) {
           cmd.print();
         }
       }
