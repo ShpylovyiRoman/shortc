@@ -19,10 +19,18 @@ const tryReadFile = async path => {
   }
 };
 
-const printCommand = cmd => {
-  console.log(chalk.cyan(`- ${cmd.com}`));
-  console.log(`\t${chalk.greenBright(cmd.desc)}`);
-};
+class Command {
+  constructor(com, desc) {
+    this.com = com.trim();
+    this.desc = desc.trim();
+  }
+
+  print() {
+    console.log(chalk.cyan(`- ${this.com}`));
+    console.log(`\t${chalk.greenBright(this.desc)}`);
+  }
+}
+
 class ShortcState {
   constructor(commands) {
     this.commands = commands;
@@ -36,7 +44,7 @@ class ShortcState {
     const data = await tryReadFile(path);
     const json = data || '[]';
     const commands = JSON.parse(json);
-    return new ShortcState(commands);
+    return new ShortcState(commands.map(obj => new Command(obj.com, obj.desc)));
   }
 
   async saveTo(path) {
@@ -44,6 +52,7 @@ class ShortcState {
     return fs.promises.writeFile(path, data);
   }
 }
+
 
 function getSavePath() {
   const currentDir = os.homedir();
@@ -57,5 +66,5 @@ module.exports = {
   pathFile,
   ShortcState,
   getSavePath,
-  printCommand
+  Command
 };

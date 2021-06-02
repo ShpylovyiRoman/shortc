@@ -1,7 +1,11 @@
 'use strict';
 const yargs = require('yargs');
 const pkg = require('./package.json');
-const { printCommand, getSavePath, ShortcState } = require('./commands.js');
+const {
+  getSavePath,
+  ShortcState,
+  Command,
+} = require('./commands.js');
 const chalk = require('chalk');
 
 const EXIT_ERROR = 1;
@@ -26,7 +30,7 @@ const run = async state => {
       },
     },
     handler({ com, desc }) {
-      state.addCommand({ com, desc });
+      state.addCommand(new Command(com, desc));
     },
   });
 
@@ -36,7 +40,7 @@ const run = async state => {
     describe: 'Check all commands',
     handler() {
       state.commands.forEach(cmd => {
-        printCommand(cmd);
+        cmd.print();
       });
     },
   });
@@ -63,7 +67,7 @@ const run = async state => {
       const regexp = new RegExp(pattern);
       for (const cmd of state.commands) {
         if (regexp.test(cmd.com) || regexp.test(cmd.desc)) {
-          printCommand(cmd);
+          cmd.print();
         }
       }
     },
