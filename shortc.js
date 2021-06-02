@@ -51,6 +51,24 @@ const run = async state => {
     },
   });
 
+  yargs.command({
+    command: 'find <pattern>',
+    describe: 'Search for patterns in each command\'s name and description.' +
+      ' For syntax see JavaScript\'s RegExp.',
+    builder: () => yargs.positional('pattern', {
+      type: 'string',
+      describe: 'regular expression pattern'
+    }),
+    handler({ pattern }) {
+      const regexp = new RegExp(pattern);
+      for (const cmd of state.commands) {
+        if (regexp.test(cmd.com) || regexp.test(cmd.desc)) {
+          printCommand(cmd);
+        }
+      }
+    },
+  });
+
   yargs.parse();
 };
 
