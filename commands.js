@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const chalk = require('chalk');
 
 const pathFile = getSavePath();
 const FILE_DOESNT_EXIST = 'ENOENT';
@@ -18,6 +19,10 @@ const tryReadFile = async path => {
   }
 };
 
+const printCommand = cmd => {
+  console.log(chalk.cyan(`- ${cmd.com}`));
+  console.log(`\t${chalk.greenBright(cmd.desc)}`);
+};
 class ShortcState {
   constructor(commands) {
     this.commands = commands;
@@ -46,8 +51,11 @@ function getSavePath() {
   return path.join(pth, 'shortc.json');
 }
 
+
+
 module.exports = {
   pathFile,
   ShortcState,
-  getSavePath
+  getSavePath,
+  printCommand
 };
