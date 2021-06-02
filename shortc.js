@@ -1,7 +1,7 @@
 'use strict';
 const yargs = require('yargs');
 const pkg = require('./package.json');
-const commands = require('./commands.js');
+const { printCommand, getSavePath, ShortcState } = require('./commands.js');
 const chalk = require('chalk');
 
 const EXIT_ERROR = 1;
@@ -35,7 +35,9 @@ const run = async state => {
     command: 'read',
     describe: 'Check all commands',
     handler() {
-      console.dir(state.commands);
+      state.commands.forEach(cmd => {
+        printCommand(cmd);
+      });
     },
   });
 
@@ -43,7 +45,7 @@ const run = async state => {
     command: 'path',
     describe: 'Show path for file with saved commands',
     handler() {
-      const path = commands.getSavePath();
+      const path = getSavePath();
       const colorfullPath = chalk.bgCyan.bold(path);
       console.log(chalk.blue(`Db is located at ${colorfullPath}`));
     },
@@ -53,8 +55,8 @@ const run = async state => {
 };
 
 (async () => {
-  const path = commands.getSavePath();
-  const state = await commands.ShortcState.loadFrom(path);
+  const path = getSavePath();
+  const state = await ShortcState.loadFrom(path);
   await run(state);
   return state.saveTo(path);
 })().catch(err => {
