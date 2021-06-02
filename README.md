@@ -1,16 +1,36 @@
-# shortc application
+# shortc
 
-This program is designed to facilitate interaction with the command line. 
-<br/> With its help, you can record commands that you rarely use and often forget, and they will be available for your viewing at any time.
-<br/><br/><br/>
+This program is designed to facilitate interaction with the command line.
+With its help, you can record commands that you rarely use and often forget, and they will be available for your viewing at any time.
+
 
 
 ## Usage
 
- <br/> To add new command use key add and add the name and description of the new command: <br/>
- 
-### node .\shortc.js add --com='git add' --desc='This command can help'
+All commands are saved to the `$HOME/.shortc.json` file. You can change the path to the firectory, by setting `SHORTC_PATH` environment variable.
 
- <br/> To check all added commands, use the key read: <br/> 
- 
-### node .\shortc.js read
+To add the command:
+
+```bash
+$ node shortc add --name "tar xvf source.tar.gz" --desc "Extract a (compressed) archive file into the current directory verbosely"
+```
+
+To list all the commands:
+```bash
+$ node shortc read
+```
+
+To find the command with regexp:
+```bash
+$ node shortc find "curl"
+```
+
+To remove the command by name:
+```bash
+$ node shortc remove "curl --user myusername:mypassword http://example.com"
+```
+
+To show the save path:
+```bash
+$ node shortc path
+```
