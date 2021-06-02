@@ -32,6 +32,11 @@ class ShortcState {
     const commands = await JSON.parse(data);
     return new ShortcState(commands);
   }
+
+  async saveTo(path) {
+    const data = JSON.stringify(this.commands);
+    return fs.promises.writeFile(path, data);
+  }
 }
 
 function getSavePath() {

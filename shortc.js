@@ -3,6 +3,8 @@ const yargs = require('yargs');
 const pkg = require('./package.json');
 const commands = require('./commands.js');
 
+const EXIT_ERROR = 1;
+
 const run = async state => {
   yargs.version(pkg.version);
 
@@ -48,7 +50,9 @@ const run = async state => {
 (async () => {
   const path = commands.getSavePath();
   const state = await commands.ShortcState.loadFrom(path);
-  return run(state);
+  await run(state);
+  return state.saveTo(path);
 })().catch(err => {
-  console.error(`something went wrong: ${err.message}`);
+  console.error(`Error: ${err.message}`);
+  process.exitCode = EXIT_ERROR;
 });
