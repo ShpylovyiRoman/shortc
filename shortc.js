@@ -73,6 +73,18 @@ const run = async state => {
     },
   });
 
+  yargs.command({
+    command: 'remove <name>',
+    describe: 'Remove command based on its name',
+    builder: () => yargs.positional('name', {
+      type: 'string',
+      describe: 'name of the command'
+    }),
+    handler({ name }) {
+      state.removeCommand(name);
+    },
+  });
+
   yargs.parse();
 };
 

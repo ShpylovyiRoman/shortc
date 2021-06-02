@@ -43,6 +43,13 @@ class ShortcState {
     this.cmds.set(command.name, command);
   }
 
+  removeCommand(name) {
+    const existed = this.cmds.delete(name);
+    if (!existed) {
+      throw new Error(`command '${name}' does not exists`);
+    }
+  }
+
   static async loadFrom(path) {
     const data = await tryReadFile(path);
     const json = data || '[]';
