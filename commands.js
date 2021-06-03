@@ -13,7 +13,6 @@ const tryReadFile = async path => {
     return file;
   } catch (err) {
     if (err.code !== FILE_DOESNT_EXIST) throw err;
-    // try to create file, because it could be impossible due to another error
     await fs.promises.writeFile(path, '');
     return null;
   }

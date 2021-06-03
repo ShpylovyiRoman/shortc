@@ -50,8 +50,8 @@ const run = async state => {
     describe: 'Show path for file with saved commands',
     handler() {
       const path = getSavePath();
-      const colorfullPath = chalk.bgCyan.bold(path);
-      console.log(chalk.blue(`Db is located at ${colorfullPath}`));
+      const colorfullPath = chalk.white.bgCyan.bold(path);
+      console.log(chalk.cyanBright(`Db is located at ${colorfullPath}`));
     },
   });
 
